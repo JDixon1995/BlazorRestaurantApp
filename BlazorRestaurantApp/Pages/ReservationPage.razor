@@ -1,0 +1,43 @@
+﻿@page "/reservations"
+
+<h1>Reservations</h1>
+
+<h4>Make your reservation here:</h4>
+
+
+
+
+
+<button class="btn btn-primary" @onclick="SubmitRes">Submit Reservation</button>
+
+<h3>Reservation List:</h3>
+
+<ul>
+    @foreach (var resName in reslist)
+    {
+    <li>
+        <input type="text" @bind="resName.Title" />
+    </li>
+    }
+</ul>
+
+
+
+
+@code {
+    private IList<ResListItem> reslist = new List<ResListItem>();
+
+    private string resName;
+
+    private void SubmitRes()
+    {
+        if (!string.IsNullOrEmpty(resName))
+        {
+            reslist.Add(new ResListItem()
+            {
+                Title = resName
+            });
+            resName = string.Empty;
+        }
+    }
+}
