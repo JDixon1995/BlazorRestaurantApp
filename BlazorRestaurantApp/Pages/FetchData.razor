@@ -6,7 +6,7 @@
 
 <p>Browse our varied menu below.</p>
 
-@if (menuItems == null)
+@if (menuitems == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -21,13 +21,12 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var menuItem in menuItems)
+            @foreach (var menuitem in menuitems)
             {
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>menuitem.Entree</td>
+                    <td>menuitem.Price</td>
+                    <td>menuitem.Side</td>
                 </tr>
             }
         </tbody>
@@ -35,6 +34,19 @@ else
 }
 
 @code {
-    [Inject]
-    public IMenuService MenuService { get; set; }
+    private Menu[] menuitems;
+
+    private override async Task OnInitializedAsync()
+    {
+        menuitems = await Http.GetFromJsonAsync<Menu[]>("Data/menu-items.json");
+    }
+
+    public class Menu
+    {
+        public string Entree { get; set; }
+
+        public int Price { get; set; }
+
+        public string Side { get; set; }
+    }
 }
